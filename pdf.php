@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Classe PDF : hérite de FPDF
  * Définition des méthodes header footer titre impressionEnteteTableau ...
  * @Author : Guy Verghote
- * @Date : 05/07/2024
+ * @Date : 04/08/2024
  */
 
 class PDF extends FPDF
@@ -241,7 +241,7 @@ class PDF extends FPDF
         // recherche le nombre de lignes dans une cellule
         $nbdata = count($data);
         for ($i = 0; $i < $nbdata; $i++) {
-            $nb = max($nb, $this->nbLines($widths[$i], $data[$i]));
+            $nb = max($nb, $this->nbLines($widths[$i], (string) $data[$i]));
         }
         $h = 5 * $nb;
         //Effectue un saut de page si nécessaire
