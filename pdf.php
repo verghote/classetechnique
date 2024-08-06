@@ -142,7 +142,7 @@ class PDF extends FPDF
     public function AddPage($orientation = '', $size = '', $rotation = 0)
     {
         parent::AddPage($orientation, $size, $rotation);
-        /*
+
         if ($this->titre != '') {
             $this->SetFont('', 'B', 12);
             $this->SetX(20);
@@ -152,7 +152,7 @@ class PDF extends FPDF
             $this->Ln();
             $this->SetFont('', '', '10');
         }
-        */
+
     }
 
     /**
