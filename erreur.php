@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 /**
  * Classe Erreur : Classe permettant de générer la réponse du serveur en cas d'erreur détectée
+ * Utilise les classes techniques Journal et ListeNoire (table listenoire)
  * @Author : Guy Verghote
- * @Version : 1.0.0
- * @Date : 20/07/2024
+ * @Version : 1.1.0
+ * @Date : 17/08/2024
  */
 class Erreur
 {
@@ -53,6 +54,22 @@ class Erreur
             $lesErreurs[$type] = $message;
             echo json_encode(['error' => $lesErreurs], JSON_UNESCAPED_UNICODE);
         }
+        exit;
+    }
+
+    /**
+     * Rejette l'accès à une url jugée malveillante et enregistre l'ip dans la liste noire
+     * @param string $url
+     * @return void
+     */
+    public static function rejeterUrl(string $url): void
+    {
+        $ip = Journal::getIp();
+        ListeNoire::ajouter($ip);
+        Journal::enregistrer("Url malveillante : $url", 'erreur');
+        $_SESSION['erreur'] = [];
+        $_SESSION['erreur']['message'] = "Votre requête a été jugée malveillante, votre adresse IP a été enregistrée dans la liste noire";
+        header('Location:/erreur');
         exit;
     }
 }
