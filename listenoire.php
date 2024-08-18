@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Classe ListeNoire : Classe permettant de gérer une liste noire des adresses IP
  *
  * @Author : Guy Verghote
- * @Date : 31/07/2024
+ * @Date : 18/08/2024
  */
 class ListeNoire
 {
@@ -16,8 +16,9 @@ class ListeNoire
     public static function getALL(): array
     {
         $sql = <<<EOD
-                    SELECT ip, date
+                    SELECT ip, horodatage
                     FROM listenoire
+                    ORDER BY horodatage DESC;
 EOD;
         $select = new Select();
         return $select->getRows($sql);
