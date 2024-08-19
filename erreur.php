@@ -59,12 +59,12 @@ class Erreur
 
     /**
      * Rejette l'accès à une url jugée malveillante et enregistre l'ip dans la liste noire
-     * @param string $url
      * @return void
      */
-    public static function rejeterUrl(string $url): void
+    public static function bloquerVisiteur(): void
     {
         $ip = Journal::getIp();
+        $url = $_SERVER['REQUEST_URI'];
         ListeNoire::ajouter($ip);
         Journal::enregistrer("Url malveillante : $url", 'erreur');
         $_SESSION['erreur'] = [];
