@@ -31,7 +31,7 @@ EOD;
     {
         try {
             $sql = <<<EOD
-            INSERT INTO listenoire (ip) VALUES (:ip);
+            INSERT ignore INTO listenoire (ip) VALUES (:ip);
 EOD;
             $db = Database::getInstance();
             $curseur = $db->prepare($sql);
