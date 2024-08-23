@@ -5,8 +5,8 @@ declare(strict_types=1);
  * Classe Erreur : Classe permettant de générer la réponse du serveur en cas d'erreur détectée
  * Utilise les classes techniques Journal et ListeNoire (table listenoire)
  * @Author : Guy Verghote
- * @Version : 1.1.0
- * @Date : 17/08/2024
+ * @Version : 1.1.1
+ * @Date : 23/08/2024
  */
 class Erreur
 {
@@ -46,6 +46,7 @@ class Erreur
 
         // Si le script a été appelé directement
         if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+            if(session_status() === PHP_SESSION_NONE) session_start();
             $_SESSION['erreur'] = [];
             $_SESSION['erreur']['page'] = $_SERVER['PHP_SELF'];
             $_SESSION['erreur']['message'] = $message;
@@ -67,6 +68,7 @@ class Erreur
         $url = $_SERVER['REQUEST_URI'];
         ListeNoire::ajouter($ip);
         Journal::enregistrer("Url malveillante : $url", 'erreur');
+        if(session_status() === PHP_SESSION_NONE) session_start();
         $_SESSION['erreur'] = [];
         $_SESSION['erreur']['message'] = "Votre requête a été jugée malveillante, votre adresse IP a été enregistrée dans la liste noire";
         header('Location:/erreur');
