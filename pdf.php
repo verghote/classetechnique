@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Classe PDF : hérite de FPDF
  * Définition des méthodes header footer titre impressionEnteteTableau ...
  * @Author : Guy Verghote
- * @Date : 04/08/2024
+ * @Date : 24/08/2024
  */
 
 class PDF extends FPDF
@@ -16,7 +16,7 @@ class PDF extends FPDF
     private bool $pagination = false; // active ou désactive la pagination au centre du pied de page
     private int $taillePolice = 10; // taille initiale de la police
     private string $police = 'helvetica'; // police initiale
-    private string $titre;  // titre à afficher au début de chaque page
+    private string $titre = '';  // titre à afficher au début de chaque page
 
     // accesseur sur l'attribut privé PageBreakTrigger pour gérer le saut de page
     public function getPageBreakTrigger()
