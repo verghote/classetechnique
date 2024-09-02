@@ -25,7 +25,7 @@ class InputDate extends Input
         if (!parent::checkValidity()) {
             return false;
         }
-        if ($this->Value != null) {
+        if ($this->Value !== null && $this->Value !== "") {
             $correct = preg_match('`^([0-9]{4})-([0-9]{2})-([0-9]{2})$`', (string)$this->Value, $tdebut);
             if ($correct) {
                 $correct = checkdate((int)$tdebut[2], (int)$tdebut[3], (int)$tdebut[1]) && (int)$tdebut[1] > 1900;

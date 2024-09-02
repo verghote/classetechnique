@@ -18,7 +18,7 @@ class InputTextarea extends Input
     {
         if (!parent::checkValidity()) return false;
 
-        if ($this->Value !== null) {
+        if ($this->Value !== null && $this->Value !== "") {
             $valeur = (string)$this->Value;
             // Si la saisie utilise un Rich text Editor, il n'y a pas de danger : les caractères sont remplacées par leur code HTML (htmlSpecialchar)
             // le test suivant ne sera alors jamais vrai

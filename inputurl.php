@@ -23,7 +23,7 @@ class InputUrl extends Input
 
         if (!parent::checkValidity()) {
             $valide = false;
-        } elseif ($this->Value !== null) {
+        } elseif ($this->Value !== null && $this->Value !== "") {
             $valeur = (string)$this->Value;
             if (!filter_var($valeur, FILTER_VALIDATE_URL)) {
                 $this->validationMessage = "URL non valide";

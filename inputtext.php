@@ -55,7 +55,7 @@ class InputText extends Input
     public function checkValidity(): bool
     {
         // la valeur ne doit pas contenir de balise script : la balise script et son contenu doivent être éliminés
-        if ($this->Value !== null) {
+        if ($this->Value !== null && $this->Value !== "") {
             // $this->Value = preg_replace('/<script[^>]*.*?<\/script>/is', '', $this->Value);
             if (preg_match('/<script|drop|select|insert|delete|update|--|\/\*|\*\//i', $this->Value)) {
                 $this->validationMessage = 'La valeur contient des caractères ou des mots interdits.';

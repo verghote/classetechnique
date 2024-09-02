@@ -17,7 +17,7 @@ class InputEmail extends Input
         if (!parent::checkValidity()) {
             return false;
         }
-        if ($this->Value !== null) {
+        if ($this->Value !== null && $this->Value !== "") {
             $valeur = (string)$this->Value;
             // ancienne solution
             // $correct = preg_match("/^[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-_.]?[0-9a-z])*\.[a-z]{2,4}$/i", $valeur);
