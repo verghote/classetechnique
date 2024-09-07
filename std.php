@@ -3,8 +3,8 @@ declare(strict_types=1);
 /**
  * Classe Std : Classe statique permettant l'affichage le contrôle et la conversion des données
  * @Author : Guy Verghote
- * @Version : 1.0.0
- * @Date : 20/07/2024
+ * @Version : 1.0.1
+ * @Date : 07/09/2024
  */
 
 class Std
@@ -202,7 +202,7 @@ class Std
      */
     public static function fixeValide(string $valeur): bool
     {
-        return preg_match("/^0[1-59]\d{8}$/", $valeur);
+        return preg_match("/^0[1-59]\d{8}$/", $valeur) === 1;
     }
 
     /**
