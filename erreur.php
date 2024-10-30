@@ -114,7 +114,7 @@ class Erreur
                 $message = "Temps d'attente de la passerelle dépassé";
                 break;
             default:
-                $message = "Erreur inconnue: " . $codeHttp;
+                $message = "Erreur HTTP : " . $codeHttp;
         }
        return $message;
     }
