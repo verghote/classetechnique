@@ -6,8 +6,8 @@ declare(strict_types=1);
  * Possibilité de définir les dimensions à respecter et de redimensionner (extraire une partie en fonction des dimensions à respecter)
  * Nécessite la bibliothèque Gumlet/ImageResize
  * @Author : Guy Verghote
- * @Version : 1.0.0
- * @Date : 20/07/2024
+ * @Version : 1.0.1
+ * @Date : 18/10/2024
  */
 
 // chargement du composant permettant de redimensionner l'image
@@ -42,6 +42,10 @@ class InputFileImg extends InputFile
     {
         if (!parent::checkValidity()) {
             return false;
+        }
+
+        if ($this->file === null) {
+            return true;
         }
 
         // contrôle éventuel des dimensions si elles sont fixées et si l'image ne doit pas être redimensionnée

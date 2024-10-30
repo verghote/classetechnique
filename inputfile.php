@@ -4,8 +4,8 @@ declare(strict_types=1);
 /**
  * Classe InputFile : assure les opérations de téléversement d'un fichier
  * @Author : Guy Verghote
- * @Version : 1.0.0
- * @Date : 20/07/2024
+ * @Version : 1.0.1
+ * @Date : 18/10/2024
  */
 class InputFile extends Input
 {
@@ -29,7 +29,7 @@ class InputFile extends Input
     // Enfin pour être certain que le fichier a été contrôlé un booléen valide permet de savoir si la méthode checkvalidity a été appelée avec succès
 
     // Tableau $_Files[] associé
-    protected array $file;
+    protected array | null $file;
 
     // Indique le mode de copie du fichier : 'update' : le fichier est remplacé s'il existe déjà, 'insert' : le fichier est ajouté s'il n'existe pas
     public string $Mode = 'insert';
@@ -76,7 +76,7 @@ class InputFile extends Input
         $this->Require = $lesParametres['require'] ?? true;
         $this->Types = $lesParametres['types'] ?? ["application/force-download", "application/pdf"];
         $this->Value = null;
-        $this->file = $_FILES['fichier'] ?? [];
+        $this->file = $_FILES['fichier'] ?? null;
     }
 
     public function fichierTransmis(): bool

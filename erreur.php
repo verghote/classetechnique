@@ -5,8 +5,8 @@ declare(strict_types=1);
  * Classe Erreur : Classe permettant de générer la réponse du serveur en cas d'erreur détectée
  * Utilise les classes techniques Journal et ListeNoire (table listenoire)
  * @Author : Guy Verghote
- * @Version : 1.1.1
- * @Date : 23/08/2024
+ * @Version : 1.1.2
+ * @Date : 30/10/2024
  */
 class Erreur
 {
@@ -73,5 +73,49 @@ class Erreur
         $_SESSION['erreur']['message'] = "Votre requête a été jugée malveillante, votre adresse IP a été enregistrée dans la liste noire";
         header('Location:/erreur');
         exit;
+    }
+
+    /**
+     * Retourne le message associé à un code HTTP
+     * @param int $codeHttp code HTTP
+     * @return string
+     */
+    public static function getErreurHttp($codeHttp): string
+    {
+        switch ($codeHttp) {
+            case 400:
+                $message = "Requête incorrecte";
+                break;
+            case 401:
+                $message = "Erreur d'authentification";
+                break;
+            case 403:
+                $message = "Demande interdite par les règles administratives. Veuillez vous assurer que votre demande comporte un en-tête User-Agent.";
+                break;
+            case 404:
+                $message = "Page non trouvée";
+                break;
+            case 405:
+                $message = "Méthode non autorisée";
+                break;
+            case 408:
+                $message = "Temps d'attente d'une requête dépassé";
+                break;
+            case 500:
+                $message = "Erreur interne du serveur";
+                break;
+            case 502:
+                $message = "Mauvaise passerelle";
+                break;
+            case 503:
+                $message = "Service indisponible";
+                break;
+            case 504:
+                $message = "Temps d'attente de la passerelle dépassé";
+                break;
+            default:
+                $message = "Erreur inconnue: " . $codeHttp;
+        }
+       return $message;
     }
 }
