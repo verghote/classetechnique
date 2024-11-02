@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * Classe permettant d'interroger une API par la méthode get
  * @Author : Guy Verghote
- * @Version : 1.0.0
+ * @Version : 1.0.1
  * @Date : 02/11/2024
  */
 class Api
@@ -17,11 +17,8 @@ class Api
      * ex : https://api.github.com/repos/verghote/verghote.github.io pour un référentiel
      * @return string réponse de l'API dans le format json
      */
-    public static function get(string $url): string
+    public static function get(string $url, string $token): string
     {
-        // Récupérer le token d'autorisation depuis la variable d'environnement
-        $token = getenv('CALENDRIER_TOKEN');
-
         // Initialisation de cURL
         $ch = curl_init();
 
