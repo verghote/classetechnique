@@ -6,8 +6,8 @@ declare(strict_types=1);
  * Cette classe est une classe abstraite donc non instanciable.
  * Elle met en facteur tous les attributs et toutes les méthodes communes aux classes dérivées
  * @Author : Guy Verghote
- * @Version : 1.0.0
- * @Date : 20/07/2024
+ * @Version : 1.0.1
+ * @Date : 07/11/2024
  */
 abstract class Table
 {
@@ -20,8 +20,8 @@ abstract class Table
     // nom de la colonne de clé primaire par défaut id (sera défini dans la classe dérivée si la clé primaire n'est pas id)
     protected string $idName = 'id';
 
-    // Colonnes composant la structure de la table (à l'exeption de l'identifiant)
-    // Tableau associatif - clé : nom de la colonne, valeur : un objet Input (contient la valeur et les règles de validations)
+    // Colonnes composant la structure de la table (à l'exception de l'identifiant)
+    // Tableau associatif clé : nom de la colonne, valeur : un objet Input (contient la valeur et les règles de validations)
     // sera défini dans la classe dérivée
     protected array $columns;
 
@@ -30,11 +30,11 @@ abstract class Table
     protected InputList $listOfColumns;
 
     //  tableau d'objet Erreur alimenté par les méthodes de gestion
-    private $lesErreurs = [];
+    private array $lesErreurs = [];
 
     // propriété statique contenant la valeur de l'identifiant de la dernière ligne insérée lorsque l'identifiant est un champ auto-incrémenté
     // alimenté par la méthode lastInsertId de la classe PDO qui retourne une chaîne ou faux
-    private $lastInsertId = false;
+    private bool|string $lastInsertId = false;
 
     /**
      * Constructeur
@@ -64,14 +64,22 @@ abstract class Table
         return $this->columns[$colonne];
     }
 
-    // accesseur en lecture sur le tableau des erreurs
-    public function getLesErreurs()
+    /**
+     * Retourne le tableau des erreurs
+     * @return array
+     */
+    public function getLesErreurs() : array
     {
         return $this->lesErreurs;
     }
 
     // accesseur en lecture sur la dernière valeur générée d'un champ auto-increment
-    public function getLastInsertId()
+
+    /**
+     * Retourne la valeur de l'identifiant de la dernière ligne insérée
+     * @return bool|string
+     */
+    public function getLastInsertId() : bool|string
     {
         return $this->lastInsertId;
     }
@@ -87,7 +95,7 @@ abstract class Table
      * En cas d'erreur, la méthode est interrompue et le message d'erreur est envoyé
      * @param string $sql Requête SQL paramétrée de type insert ou update à exécuter
      */
-    private function prepareAndExecute(string $sql)
+    private function prepareAndExecute(string $sql) : void
     {
         try {
             $curseur = $this->db->prepare($sql);
@@ -111,7 +119,7 @@ abstract class Table
     */
 
     /**
-     * Vérifie que toutes les données à transmettre sont bien transimses
+     * Vérifie que toutes les données à transmettre sont bien transmises
      * Les erreurs sont conservées dans le tableau des erreurs
      * Alimente la valeur des objets Input composant la table à partir des données transmises dans le tableau $_POST
      * Contrôle que tous les objets Input obligatoires ont bien une valeur
@@ -167,7 +175,7 @@ abstract class Table
     /**
      * Ajoute un enregistrement dans une table et éventuellement le fichier associé
      */
-    public function insert()
+    public function insert() : void
     {
         // génération de la requête insert
         $set = "";
@@ -200,7 +208,7 @@ abstract class Table
      * En cas d'erreur la méthode est interrompue et un message d'erreur est renvoyé
      * @param int|string $id valeur de la clé primaire (entier ou chaine de caractères)
      */
-    public function delete($id)
+    public function delete(int|string $id) : void
     {
         try {
             // vérification de l'id et récupération éventuelle du nom du fichier associé à l'enregistrement
@@ -251,7 +259,7 @@ EOD;
      * @param $id
      * @return bool
      */
-    private function existe($id): bool
+    protected function existe($id): bool
     {
         $sql = <<<EOD
                 Select 1 
@@ -263,7 +271,7 @@ EOD;
         $curseur->execute();
         $ligne = $curseur->fetch();
         $curseur->closeCursor();
-        return $ligne ? true : false;
+        return (bool)$ligne;
     }
 
     /**
@@ -272,7 +280,7 @@ EOD;
      * @param int|string $id valeur de la clé primaire
      * @param array $lesValeurs tableau associatif des nouvelles valeurs
      */
-    public function update($id, array $lesValeurs)
+    public function update(int|string $id, array $lesValeurs) : void
     {
         // Alimentation de la valeur des objets Input concernés
         foreach ($lesValeurs as $cle => $valeur) {
@@ -322,9 +330,8 @@ EOD;
      * @param string $colonne Nom de la colonne à modifier
      * @param string|int $valeur Nouvelle valeur de la colonne
      * @param string|int $id Valeur de la clé primaire
-     * @return bool
      */
-    public function modifierColonne(string $colonne, $valeur, $id)
+    public function modifierColonne(string $colonne, string|int $valeur, string|int $id) : void
     {
         try {
             // contrôle sur la colonne : La colonne doit faire partie des colonnes modifiables de la table
@@ -366,10 +373,9 @@ EOD;
      * Modifie la valeur d'une colonne d'un enregistrement
      * En cas d'erreur la méthode est interrompue et un message d'erreur est renvoyé
      * @param string $colonne Nom de la colonne à modifier
-     * @param string|int $valeur Nouvelle valeur de la colonne
      * @param string|int $id Valeur de la clé primaire
      */
-    public function setNull(string $colonne, $id)
+    public function setNull(string $colonne, string|int $id) : void
     {
         try {
             // contrôle de la colonne
