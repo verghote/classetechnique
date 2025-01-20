@@ -30,7 +30,7 @@ class Token {
         setcookie('token', $token, [
             'expires' => $expires,  // Durée du cookie
             'path' => '/',          // Accessible sur tout le site
-            'secure' => true,       // Cookie uniquement en HTTPS
+            'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',  // Cookie uniquement en HTTPS
             'httponly' => true,     // Empêche l'accès via JavaScript
             'samesite' => 'Strict'  // Protection contre les attaques CSRF inter-domaines
         ]);
