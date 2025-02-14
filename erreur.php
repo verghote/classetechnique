@@ -5,11 +5,27 @@ declare(strict_types=1);
  * Classe Erreur : Classe permettant de générer la réponse du serveur en cas d'erreur détectée
  * Utilise les classes techniques Journal et ListeNoire (table listenoire)
  * @Author : Guy Verghote
- * @Version : 1.1.2
- * @Date : 30/10/2024
+ * @Version : 1.1.3
+ * @Date : 14/02/2025
  */
 class Erreur
 {
+
+    /**
+     * Vérifie si la requête a été effectuée en Ajax
+     * Si ce n'est pas le cas, la méthode redirige l'utilisateur vers la page erreur/404.php
+     * @return bool
+     */
+    public static function appelAjax(): bool
+    {
+        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+            http_response_code(404);
+            header('Location:/erreur/404.php');
+            exit();
+        }
+    }
+
+
     /**
      * Réponse du serveur en cas de détection d'une erreur
      *
