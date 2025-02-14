@@ -14,9 +14,8 @@ class Erreur
     /**
      * Vérifie si la requête a été effectuée en Ajax
      * Si ce n'est pas le cas, la méthode redirige l'utilisateur vers la page erreur/404.php
-     * @return bool
      */
-    public static function appelAjax(): bool
+    public static function appelAjax(): void
     {
         if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
             http_response_code(404);
